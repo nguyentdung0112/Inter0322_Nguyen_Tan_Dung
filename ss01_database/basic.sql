@@ -355,3 +355,25 @@ where loai_khach.ten_loai_khach="Diamond")
 where khach_hang.ma_loai_khach =(select loai_khach.ma_loai_khach from loai_khach 
 where loai_khach.ten_loai_khach="Platinum" and temp.id=khach_hang.ma_khach_hang);
 
+
+
+-- Cau 18
+Delete from khach_hang where ma_khach_hang in (Select kh.ma_khach_hang
+from khach_hang kh inner join hop_dong hd on kh.ma_khach_hang = hd.ma_khach_hang
+where (year(ngay_lam_hop_dong)<2021));
+
+-- Cau 19
+SET SQL_SAFE_UPDATES=0;
+Update furama_danang.dich_vu_di_kem
+set gia = gia*2
+where ma_dich_vu_di_kem in (select ma_dich_vu_di_kem
+from hop_dong_chi_tiet hdct inner join hop_dong hd on hdct.ma_hop_dong = hd.ma_hop_dong
+where (year(ngay_lam_hop_dong) = 2020 and so_luong>=10));
+SET SQL_SAFE_UPDATES=1;
+
+-- Cau 20
+Select ma_nhan_vien as id, ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi
+from nhan_vien
+union
+select ma_khach_hang as id, ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi
+from khach_hang
